@@ -1,26 +1,13 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import ButtonAppBar from "./components/AppBar.js";
-
+import LogoAppBar from "./components/AppBar.js";
+import SearchBar from "./components/SearchBar.js";
+import UsersList from "./components/UsersList.js";
 function App() {
   return (
     <div className="App">
-      <ButtonAppBar />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <LogoAppBar />
+      <SearchBar />
+      <UsersList />
     </div>
   );
 }

@@ -20,7 +20,8 @@ const useStyles = makeStyles(theme => ({
 
   title: {
     justifyContent: "flex-start",
-    marginLeft: 30
+    marginLeft: 20,
+    color: "#B8BDC5"
   },
   bottomToolbar: {
     background: "#E5E5E5",
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ButtonAppBar() {
+export default function LogoAppBar() {
   const classes = useStyles();
 
   return (
@@ -36,8 +37,9 @@ export default function ButtonAppBar() {
       <Toolbar className={classes.miniAppBar} />
       <AppBar position="static">
         <Toolbar className={classes.appBar}>
-          <Typography variant="h6" className={classes.title}>
-            <img src={logo} alt="logo" />
+          <img src={logo} alt="logo" />
+          <Typography variant="h4" className={classes.title}>
+            Team Members
           </Typography>
         </Toolbar>
         <Toolbar className={classes.bottomToolbar} />
