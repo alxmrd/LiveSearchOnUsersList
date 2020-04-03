@@ -25,7 +25,8 @@ const useStyles = makeStyles(theme => ({
   },
   text: {
     marginTop: "50px",
-    marginRight: "80px"
+    marginRight: "80px",
+    marginLeft: "50px"
   }
 }));
 

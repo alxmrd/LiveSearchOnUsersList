@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 import UserCard from "./UserCard";
 
 const useStyles = makeStyles(theme => ({
@@ -9,7 +8,7 @@ const useStyles = makeStyles(theme => ({
     width: "93%",
     //maxWidth: 360,
     marginLeft: "35px",
-    marginRight: "35px"
+    marginRight: "30px"
   },
   nested: {
     paddingLeft: theme.spacing(4)
@@ -21,15 +20,7 @@ export default function UserList() {
 
   return (
     <List className={classes.root}>
-      <ListItem>
-        <UserCard />
-      </ListItem>
-      <ListItem>
-        <UserCard />
-      </ListItem>
-      <ListItem>
-        <UserCard />
-      </ListItem>
+      <UserCard />
     </List>
   );
 }
