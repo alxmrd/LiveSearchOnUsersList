@@ -32,7 +32,7 @@ class UserList extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onfetchUsers: () => dispatch(fetchUsers())
+  onfetchUsers: () => fetchUsers(dispatch)
 });
 
 const mapStateToProps = state => ({
