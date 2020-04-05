@@ -1,6 +1,6 @@
 import { FETCH_USERS } from "../actions/types";
 import { EXPANDED_ID } from "../actions/types";
-
+import store from "../store";
 export const fetchUsers = dispatch => {
   fetch("http://jsonplaceholder.typicode.com/users", {
     headers: {
@@ -23,8 +23,16 @@ export const fetchUsers = dispatch => {
 };
 
 export const expandCard = id => dispatch => {
-  dispatch({
-    type: EXPANDED_ID,
-    payload: id
-  });
+  const state = store.getState();
+  if (state.id == null || state.id !== id) {
+    dispatch({
+      type: EXPANDED_ID,
+      payload: id
+    });
+  } else {
+    dispatch({
+      type: EXPANDED_ID,
+      payload: null
+    });
+  }
 };
