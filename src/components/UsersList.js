@@ -1,9 +1,11 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import UserCard from "./UserCard";
+import { withStyles } from "@material-ui/core";
+import { connect } from "react-redux";
+import { fetchUsers } from "../store/actions/actions";
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   root: {
     width: "93%",
     //maxWidth: 360,
@@ -13,14 +15,29 @@ const useStyles = makeStyles(theme => ({
   nested: {
     paddingLeft: theme.spacing(4)
   }
-}));
+});
 
-export default function UserList() {
-  const classes = useStyles();
-
-  return (
-    <List className={classes.root}>
-      <UserCard />
-    </List>
-  );
+class UserList extends React.Component {
+  componentDidMount() {
+    this.props.onfetchUsers();
+  }
+  render() {
+    const { classes } = this.props;
+    return (
+      <List className={classes.root}>
+        <UserCard />
+      </List>
+    );
+  }
 }
+
+const mapDispatchToProps = dispatch => ({
+  onfetchUsers: () => dispatch(fetchUsers())
+});
+
+const mapStateToProps = state => ({
+  users: state.users
+});
+
+const UserListWithStyles = withStyles(styles)(UserList);
+export default connect(mapStateToProps, mapDispatchToProps)(UserListWithStyles);

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -14,9 +13,11 @@ import Typography from "@material-ui/core/Typography";
 import ListItem from "@material-ui/core/ListItem";
 import userIcon from "../assets/user.jpg";
 import Divider from "@material-ui/core/Divider";
-import loader from "./loader.css";
+import { withStyles } from "@material-ui/core";
+import { connect } from "react-redux";
+import "./loader.css";
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   root: {
     width: "100%"
   },
@@ -44,80 +45,83 @@ const useStyles = makeStyles(theme => ({
     marginLeft: "10px",
     marginRight: "10px"
   }
-}));
+});
 
-export default function UserCard() {
-  const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [users, setUsers] = useState([]);
+class UserCard extends React.Component {
+  constructor(props) {
+    super();
+    this.props = props;
+    this.state = {
+      expanded: false
+    };
+  }
 
-  const handleExpandClick = id => {
-    console.log(id);
-    const bool = users[id].boolean;
-    console.log(users[id].boolean);
-    setExpanded(!expanded);
+  handleExpand = () => {
+    this.setState({
+      expanded: !this.state.expanded
+    });
   };
-  useEffect(() => {
-    fetch("http://jsonplaceholder.typicode.com/users")
-      .then(res => res.json())
-      .then(
-        result => {
-          setIsLoaded(true);
-          setUsers(result);
-        },
-        error => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
-  }, []);
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
-    return <div class="loader"></div>;
-  } else {
-    users.map(user => (user["boolean"] = false));
-    return users.map(user => (
-      <ListItem key={user.id}>
-        <Card className={classes.root}>
-          <CardActions disableSpacing>
-            <Typography className={classes.text}>{user.name}</Typography>
+  render() {
+    const { classes, users } = this.props;
+    const { expanded } = this.state;
 
-            <IconButton
-              className={clsx(classes.expand, {
-                [classes.expandOpen]: expanded
-              })}
-              onClick={id => handleExpandClick(user.id)}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              {expanded ? <RemoveIcon /> : <AddIcon />}
-            </IconButton>
-          </CardActions>
+    return (
+      <React.Fragment>
+        {users.length > 0 ? (
+          users.map(user => (
+            <ListItem key={user.id}>
+              <Card className={classes.root}>
+                <CardActions disableSpacing>
+                  <Typography className={classes.text}>{user.name}</Typography>
 
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <Divider />
-            <CardHeader
-              avatar={
-                <Avatar
-                  aria-label={user.name}
-                  className={classes.avatar}
-                  src={userIcon}
-                />
-              }
-              title={user.email}
-              subheader={
-                <div>
-                  <div>{user.address.street + ", " + user.address.suite} </div>
-                  <div>{user.address.zipcode + ", " + user.address.city} </div>
-                </div>
-              }
-            />
-          </Collapse>
-        </Card>
-      </ListItem>
-    ));
+                  <IconButton
+                    className={clsx(classes.expand, {
+                      [classes.expandOpen]: expanded
+                    })}
+                    onClick={this.handleExpand}
+                    aria-expanded={expanded}
+                    aria-label="show more"
+                  >
+                    {expanded ? <RemoveIcon /> : <AddIcon />}
+                  </IconButton>
+                </CardActions>
+
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                  <Divider />
+                  <CardHeader
+                    avatar={
+                      <Avatar
+                        aria-label={user.name}
+                        className={classes.avatar}
+                        src={userIcon}
+                      />
+                    }
+                    title={user.email}
+                    subheader={
+                      <div>
+                        <div>
+                          {user.address.street + ", " + user.address.suite}{" "}
+                        </div>
+                        <div>
+                          {user.address.zipcode + ", " + user.address.city}{" "}
+                        </div>
+                      </div>
+                    }
+                  />
+                </Collapse>
+              </Card>
+            </ListItem>
+          ))
+        ) : (
+          <div className="loader"></div>
+        )}
+      </React.Fragment>
+    );
   }
 }
+
+const mapStateToProps = state => ({
+  users: state.users
+});
+const UserCardWithStyles = withStyles(styles)(UserCard);
+export default connect(mapStateToProps, null)(UserCardWithStyles);
