@@ -15,6 +15,7 @@ import userIcon from "../assets/user.jpg";
 import Divider from "@material-ui/core/Divider";
 import { withStyles } from "@material-ui/core";
 import { connect } from "react-redux";
+import { expandCard } from "../store/actions/actions";
 import "./loader.css";
 
 const styles = theme => ({
@@ -56,13 +57,8 @@ class UserCard extends React.Component {
     };
   }
 
-  handleExpand = () => {
-    this.setState({
-      expanded: !this.state.expanded
-    });
-  };
   render() {
-    const { classes, users } = this.props;
+    const { classes, users, id } = this.props;
     const { expanded } = this.state;
 
     return (
@@ -76,17 +72,17 @@ class UserCard extends React.Component {
 
                   <IconButton
                     className={clsx(classes.expand, {
-                      [classes.expandOpen]: expanded
+                      [classes.expandOpen]: user.id === id
                     })}
-                    onClick={this.handleExpand}
-                    aria-expanded={expanded}
+                    onClick={id => this.props.onExpand(user.id)}
+                    aria-expanded={user.id === id}
                     aria-label="show more"
                   >
-                    {expanded ? <RemoveIcon /> : <AddIcon />}
+                    {user.id === id ? <RemoveIcon /> : <AddIcon />}
                   </IconButton>
                 </CardActions>
 
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <Collapse in={user.id === id} timeout="auto" unmountOnExit>
                   <Divider />
                   <CardHeader
                     avatar={
@@ -120,8 +116,13 @@ class UserCard extends React.Component {
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  onExpand: id => dispatch(expandCard(id))
+});
+
 const mapStateToProps = state => ({
-  users: state.users
+  users: state.users,
+  id: state.id
 });
 const UserCardWithStyles = withStyles(styles)(UserCard);
-export default connect(mapStateToProps, null)(UserCardWithStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(UserCardWithStyles);
