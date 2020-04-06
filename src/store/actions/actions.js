@@ -1,5 +1,6 @@
 import { FETCH_USERS } from "../actions/types";
 import { EXPANDED_ID } from "../actions/types";
+import { SEARCH_INPUT } from "../actions/types";
 import store from "../store";
 export const fetchUsers = dispatch => {
   fetch("http://jsonplaceholder.typicode.com/users", {
@@ -35,4 +36,11 @@ export const expandCard = id => dispatch => {
       payload: null
     });
   }
+};
+
+export const searchOnList = searchInput => dispatch => {
+  dispatch({
+    type: SEARCH_INPUT,
+    payload: searchInput
+  });
 };

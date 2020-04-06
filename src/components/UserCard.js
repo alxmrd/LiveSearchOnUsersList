@@ -49,17 +49,8 @@ const styles = theme => ({
 });
 
 class UserCard extends React.Component {
-  constructor(props) {
-    super();
-    this.props = props;
-    this.state = {
-      expanded: false
-    };
-  }
-
   render() {
     const { classes, users, id } = this.props;
-    const { expanded } = this.state;
 
     return (
       <React.Fragment>
