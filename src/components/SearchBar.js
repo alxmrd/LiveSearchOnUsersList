@@ -46,7 +46,7 @@ class SearchBar extends React.Component {
             className={classes.input}
             placeholder="Search by name"
             onChange={event => this.props.onSearch(event.target.value)}
-            value={searchInput}
+            value={searchInput ? searchInput : ""}
           />
           <IconButton
             type="submit"

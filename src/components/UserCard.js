@@ -112,8 +112,17 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  users: state.users,
-  id: state.id
+  //admin: state.admin.filter(admin => admin.id === state.id)[0] || {},
+  users: !state.searchInput
+    ? state.users
+    : state.users.filter(user =>
+        user.name.includes(
+          state.searchInput.charAt(0).toUpperCase() + state.searchInput.slice(1)
+        )
+      ),
+
+  id: state.id,
+  searchInput: state.searchInput
 });
 const UserCardWithStyles = withStyles(styles)(UserCard);
 export default connect(mapStateToProps, mapDispatchToProps)(UserCardWithStyles);
