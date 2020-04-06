@@ -11,7 +11,7 @@ This application created with Create-React-App
 ### Installing
 Download this repository, then go to directory's folder by the terminal and then run :  
 ```
-$ npm start
+$ npm install && npm start
 ```
 A new tab with the app will open in your default browser.
 
